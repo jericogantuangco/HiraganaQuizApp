@@ -1,7 +1,7 @@
 package practice.projects.hiraganaquizapp
 
 object Constants {
-    fun getQuestions(): ArrayList<Question> {
+    fun questions(): ArrayList<Question> {
         val questions = ArrayList<Question>()
         val question1 = Question(
             1,
@@ -30,4 +30,8 @@ object Constants {
         return questions
     }
 
+}
+
+object QuizQuestionsActivityConstants {
+    const val optionsCapacity = 4
 }
