@@ -12,14 +12,14 @@ import androidx.core.content.ContextCompat
 
 class QuizQuestionsActivity : AppCompatActivity() {
 
-    private var progressBar: ProgressBar? = null
-    private var tvProgressBar: TextView? = null
-    private var tvTitle: TextView? = null
-    private var ivQuestion: ImageView? = null
-    private var optionOne: TextView? = null
-    private var optionTwo: TextView? = null
-    private var optionThree: TextView? = null
-    private var optionFour: TextView? = null
+    private lateinit var progressBar: ProgressBar
+    private lateinit var tvProgressBar: TextView
+    private lateinit var tvTitle: TextView
+    private lateinit var ivQuestion: ImageView
+    private lateinit var optionOne: TextView
+    private lateinit var optionTwo: TextView
+    private lateinit var optionThree: TextView
+    private lateinit var optionFour: TextView
     private lateinit var options: ArrayList<TextView?>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,26 +28,27 @@ class QuizQuestionsActivity : AppCompatActivity() {
 
         initialize()
         populate(Constants.questions())
-        optionOne?.setOnClickListener { selected(it)  }
-        optionTwo?.setOnClickListener { selected(it)  }
-        optionThree?.setOnClickListener { selected(it)  }
-        optionFour?.setOnClickListener { selected(it)  }
+        optionOne.setOnClickListener { selected(it)  }
+        optionTwo.setOnClickListener { selected(it)  }
+        optionThree.setOnClickListener { selected(it)  }
+        optionFour.setOnClickListener { selected(it)  }
+        btnSubmit.setOnClickListener { clicked(it) }
 
     }
 
     private fun populate(questions: ArrayList<Question>) {
         val currentPosition = 1
         val question: Question = questions[currentPosition - 1]
-        val progressBarValue = "${currentPosition} / ${progressBar?.max}"
-        tvTitle?.text = question.question
-        ivQuestion?.setImageResource(question.image)
-        progressBar?.progress = currentPosition
-        tvProgressBar?.text = progressBarValue
-        optionOne?.text = question.optionOne
-        optionTwo?.text = question.optionTwo
-        optionThree?.text = question.optionThree
-        optionFour?.text = question.optionFour
-
+        val progressBarValue = "$currentPosition / ${progressBar.max}"
+        tvTitle.text = question.question
+        ivQuestion.setImageResource(question.image)
+        progressBar.progress = currentPosition
+        tvProgressBar.text = progressBarValue
+        optionOne.text = question.optionOne
+        optionTwo.text = question.optionTwo
+        optionThree.text = question.optionThree
+        optionFour.text = question.optionFour
+        correctAnswer = question.correctAnswer
     }
 
     private fun initialize() {
