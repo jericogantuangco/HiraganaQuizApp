@@ -21,6 +21,11 @@ class QuizQuestionsActivity : AppCompatActivity() {
     private lateinit var optionThree: TextView
     private lateinit var optionFour: TextView
     private lateinit var options: ArrayList<TextView?>
+    private lateinit var btnSubmit: Button
+
+    private var selectedOption: Int = 0
+    private var correctAnswer: Int = 0
+    private var optionMap = emptyMap<Int, TextView>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,24 +65,58 @@ class QuizQuestionsActivity : AppCompatActivity() {
         optionTwo = findViewById(R.id.tv_option_two)
         optionThree = findViewById(R.id.tv_option_three)
         optionFour = findViewById(R.id.tv_option_four)
+        btnSubmit = findViewById(R.id.btn_submit_answer)
 
         options = ArrayList(QuizQuestionsActivityConstants.optionsCapacity)
         options.add(optionOne)
         options.add(optionTwo)
         options.add(optionThree)
         options.add(optionFour)
+
+        optionMap = mapOf(
+            1 to optionOne,
+            2 to optionTwo,
+            3 to optionThree,
+            4 to optionFour
+        )
     }
 
     private fun selected(view: View) {
-        for (option in options){
-            if (view!=option){
-                option?.background = ContextCompat.getDrawable(this, R.drawable.default_option_border_bg)
-                option?.typeface = Typeface.DEFAULT
+        optionMap.forEach {
+            if (view!=it.value){
+                it.value.background = ContextCompat.getDrawable(this, R.drawable.default_option_border_bg)
+                it.value.typeface = Typeface.DEFAULT
+            }else {
+                selectedOption = it.key
             }
         }
         val textView = view as? TextView
         textView?.background = ContextCompat.getDrawable(this, R.drawable.selected_option_border_bg)
         textView?.typeface = Typeface.DEFAULT_BOLD
     }
+
+    private fun clicked(view: View) {
+        if(selectedOption != 0) {
+            Log.i("answer:", "evaluating answer")
+            Log.i("selected answer:", "$selectedOption")
+            if (isCorrectAnswer()) {
+                Log.i("answer:", "answer is correct")
+
+            }
+
+        }else {
+            Log.i("answer:", "please select an answer")
+            Toast.makeText(this, "Please select an answer", Toast.LENGTH_LONG).show()
+        }
+    }
+
+
+    private fun isCorrectAnswer() : Boolean {
+        if (selectedOption == correctAnswer) {
+            return true
+        }
+        return false
+    }
+
 
 }
